@@ -1,48 +1,43 @@
+// models/Post.js
 import mongoose from "mongoose";
 
 const postSchema = mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Reference to User model
-      required: true,
-    },
     body: {
       type: String,
       required: true,
     },
     images: {
-      type: [String], // Array of image URLs
+      type: [String],
       default: [],
     },
     likes: [
       {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Users who liked
+        type: { type: String, enum: ["heart", "like", "wow"], default: "heart" },
+        createdDate: { type: Date, default: Date.now },
+        name: String,
+        photo: String,
       },
     ],
     comments: [
-        {
-            userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-            text: String,
-            createdAt: { type: Date, default: Date.now },
-            name: String,
-            photo: String,
-        },
+      {
+        text: String,
+        createdDate: { type: Date, default: Date.now },
+        name: String,
+        photo: String,
+      },
     ],
     createdDate: {
       type: Date,
       default: Date.now,
     },
     name: {
-      type: String, // User's name
+      type: String,
       required: true,
     },
-    photo: {
-      type: String, // User's profile photo
-    },
-  },
+    photo: String,
+  }
 );
 
-const Post =mongoose.model("Post",postSchema)
-
+const Post = mongoose.model("Post", postSchema);
 export default Post;
